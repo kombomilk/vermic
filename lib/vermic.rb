@@ -1,4 +1,5 @@
 require_relative "vermic/version"
+require_relative "pastebin"
 require 'optparse'
 
 module Vermic
@@ -9,6 +10,13 @@ module Vermic
 
     opts.on("-v", "--version", "shows the current version") do |v|
       puts Vermic::VERSION
+      exit
+    end
+
+    opts.on("-k K", "--kersion", "I don't know") do |k|
+      puts k
     end
   end.parse!
+
+  puts PastebinWrapper::paste_code('stub text')
 end
