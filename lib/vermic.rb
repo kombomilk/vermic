@@ -1,4 +1,4 @@
-require "vermic/version"
+require_relative "vermic/version"
 require 'optparse'
 
 module Vermic
