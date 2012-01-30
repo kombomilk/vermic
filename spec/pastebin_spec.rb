@@ -3,6 +3,8 @@ require 'minitest/autorun'
 
 require_relative '../lib/vermic/pastebin'
 
+# Tests PastebinWrapper module 
+#
 describe PastebinWrapper do
 
   it "shouldn't post empty code" do
@@ -14,6 +16,6 @@ describe PastebinWrapper do
   end
 
   it "shouldn't paste empty file" do
-    PastebinWrapper.paste_file(File.expand_path('spec/empty_file')).must_match(/Bad API request.*/)
+    PastebinWrapper.paste_file(File.expand_path('spec/files/empty_file')).must_match(/Bad API request.*/)
   end
 end
