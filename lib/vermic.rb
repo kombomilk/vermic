@@ -1,4 +1,5 @@
 require 'optparse'
+require 'clipboard'
 require_relative "vermic/version"
 require_relative "vermic/pastebin"
 require_relative "vermic/validator"
@@ -52,6 +53,8 @@ module Vermic
   if Validator::any_errors?
     Validator::print_errors
   else
-    puts PastebinWrapper::paste_file(options)
+    result = PastebinWrapper::paste_file(options)
+    puts result
+    Clipboard::copy(result) if result =~ /^https?:\/\//
   end
 end

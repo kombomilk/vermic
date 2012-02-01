@@ -11,6 +11,7 @@ As soon as this is my first gem please let me know if you notice some ugly code 
 
 TODO:
 
-1. Handle missing mandatory parameters
-2. Copy URL to the system clipboard
+1. + Handle missing mandatory parameters 
+2. + Copy URL to the system clipboard
 3. Add file extension recognizer
+4. Add users
