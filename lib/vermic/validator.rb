@@ -254,8 +254,8 @@ module Validator
   # Validates the format of the paste
   #
   def self.validate_format(format)
-    @errors << "Wrong format" 
     if !FORMATS_HASH.has_key?(format)
+      @errors << "Wrong format" 
       FORMATS_HASH.keys.each do |key|
         @errors << "\t#{key} -> #{FORMATS_HASH[key]}"
       end
@@ -276,7 +276,10 @@ module Validator
   # Validates the file
   #
   def self.validate_file(filename)
-    @errors << "There's no such file" if !filename.nil? && !File.exists?(filename)
-    # @errors << "#{filename} is not a file" if !File.file?(filename)
+    if filename.nil?
+      @errors << "But you didn't provide the file"
+    else
+      @errors << "There's no such file" if !File.exists?(filename)
+    end
   end
 end

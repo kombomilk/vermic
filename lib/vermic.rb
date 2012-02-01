@@ -9,7 +9,7 @@ require_relative "vermic/validator"
 module Vermic
   options = Hash.new
 
-  OptionParser.new do |opts|
+  parser = OptionParser.new do |opts|
     opts.banner = "This is command line utility which pastes your code on pastebin"
 
     opts.on("-v", "--version", "shows the current version") do |v|
@@ -33,9 +33,19 @@ module Vermic
       options[:paste_expire_date] = expire_date
     end
 
-  end.parse!
+  end
 
-  options[:file_name] = ARGV[0] if ARGV[0] != nil
+  begin parser.parse!
+  rescue OptionParser::InvalidOption 
+    puts "Invalid option, see --help for list of options"
+    exit
+
+  rescue OptionParser::MissingArgument => e
+    puts e
+    exit
+  end
+
+  options[:file_name] = ARGV[0]
 
   Validator::validate_options(options)
 

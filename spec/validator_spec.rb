@@ -41,4 +41,10 @@ describe "Validator" do
    Validator::validate_options(options)
    Validator::any_errors?.must_equal(true)
  end
+
+ it "should fail if file is not given" do
+   options = {paste_name: "Some code", paste_format: "yaml", paste_expire_date: "10M", file_name: nil}
+   Validator::validate_options(options)
+   Validator::any_errors?.must_equal(true)
+ end
 end
