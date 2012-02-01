@@ -11,7 +11,7 @@ module PastebinWrapper
   PASTE_NAME = 'Vermicelli code'
   PASTE_FORMAT = 'c'
   PASTE_PRIVATE = 0
-  PASTE_EXPIRE_DATE = '10M'
+  PASTE_EXPIRE_DATE = '1H'
 
   # Pastes plain code to the pastebin.com with
   # the given parameters
@@ -25,13 +25,14 @@ module PastebinWrapper
   # Pastes file to the pastebin.com site with the
   # given parameters
   #
-  def self.paste_file(filename, params = {})
+  def self.paste_file(params = {})
     code = ""
+    filename = params[:file_name] 
     File.foreach(filename) do |line|
       code += line
     end
     initialize_parameters(code)
-    @@params.merge(params)
+    @@params.merge!(params)
     paste
   end
 
@@ -46,13 +47,13 @@ module PastebinWrapper
   #
   def self.paste
     Net::HTTP.post_form(URI.parse(POST_URL),
-                                 {'api_dev_key' => API_DEV_KEY,
-                                  'api_option' => API_OPTION,
-                                  'api_paste_code' => @@params[:paste_code],
-                                  'api_paste_name' => @@params[:paste_name],
-                                  'api_paste_format' => @@params[:paste_format],
-                                  'api_paste_private' => @@params[:paste_private],
-                                  'api_paste_expire_date' => @@params[:paste_expire_date]}).body
+                        {'api_dev_key' => API_DEV_KEY,
+                         'api_option' => API_OPTION,
+                         'api_paste_code' => @@params[:paste_code],
+                         'api_paste_name' => @@params[:paste_name],
+                         'api_paste_format' => @@params[:paste_format],
+                         'api_paste_private' => @@params[:paste_private],
+                         'api_paste_expire_date' => @@params[:paste_expire_date]}).body
   end
 
   # Initializes paste parameters with the default

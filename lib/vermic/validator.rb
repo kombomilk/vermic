@@ -1,5 +1,3 @@
-require_relative "../vermic"
-
 # This module validates the parameters' values
 # for the correctness
 #
@@ -222,36 +220,63 @@ module Validator
   # Validates all the options which exist in the 
   # options array(defined by the user)
   #
-  def self.validate_options(options)
+  def self.validate_options(options = {})
     @errors = []
     validate_name(options[:paste_name]) if options.has_key?(:paste_name)
     validate_format(options[:paste_format]) if options.has_key?(:paste_format)
     validate_expire_date(options[:paste_expire_date]) if options.has_key?(:paste_expire_date)
-    @errors.empty?
+    validate_file(options[:file_name])
   end
 
-  def self.errors
-    @errors
+  # Checks if the options have any errors
+  #
+  def self.any_errors?
+    !@errors.empty?
   end
+
+  # Prints all the errors of all options
+  # to the shell
+  #
+  def self.print_errors
+    @errors.each do |e|
+      puts e
+    end
+  end
+
   private
   
   # Validates the name of the paste
   #
   def self.validate_name(name)
-     errors << "Name can't be empty" if name.empty?
+     @errors << "Name can't be empty" if name.empty?
   end
 
   # Validates the format of the paste
   #
   def self.validate_format(format)
-    errors << "Format can't be empty" if format.empty? 
-    errors << "Wrong format" if !FORMATS_HASH.has_key?(format)
+    @errors << "Wrong format" 
+    if !FORMATS_HASH.has_key?(format)
+      FORMATS_HASH.keys.each do |key|
+        @errors << "\t#{key} -> #{FORMATS_HASH[key]}"
+      end
+    end
   end
 
   # Validates the expire date of the paste
   #
   def self.validate_expire_date(expire_date)
-    errors << "Expire date can't be empty" if expire_date.empty?
-    errors << "Wrong format" if !EXPIRE_DATE_HASH.has_key?(expire_date)
+    if !EXPIRE_DATE_HASH.has_key?(expire_date)
+      @errors << "Wrong format of expire date, you should use the following arguments:"   
+      EXPIRE_DATE_HASH.keys.each do |key|
+        @errors << "\t#{key.to_s} -> #{EXPIRE_DATE_HASH[key]}"
+      end
+    end
+  end
+
+  # Validates the file
+  #
+  def self.validate_file(filename)
+    @errors << "There's no such file" if !filename.nil? && !File.exists?(filename)
+    # @errors << "#{filename} is not a file" if !File.file?(filename)
   end
 end

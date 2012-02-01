@@ -1,11 +1,13 @@
+require 'optparse'
 require_relative "vermic/version"
 require_relative "vermic/pastebin"
-require 'optparse'
+require_relative "vermic/validator"
 
 # This module parses command line options
 # for vermic command line utility.
+#
 module Vermic
-  options = {}
+  options = Hash.new
 
   OptionParser.new do |opts|
     opts.banner = "This is command line utility which pastes your code on pastebin"
@@ -19,19 +21,27 @@ module Vermic
       options[:paste_name] = name
     end
 
-    opts.on("-f", "--format F", "sets the format of the paste") do |f|
-      options[:paste_format] = f
+    opts.on("-f", "--format F", "sets the format of the paste") do |format|
+      options[:paste_format] = format
     end
 
-    opts.on("-p", "--private", "makes the paste private(public is default)") do |p|
+    opts.on("-p", "--private", "makes the paste private(public is default)") do |private|
       options[:paste_private] = 1
     end
 
-    opts.on("-e", "--expire", "sets the expire date of the paste") do |e|
-      options[:paste_expire_date] = e
+    opts.on("-e", "--expire E", "sets the expire date of the paste") do |expire_date|
+      options[:paste_expire_date] = expire_date
     end
 
   end.parse!
 
-  puts PastebinWrapper::paste_file(ARGV[0])
+  options[:file_name] = ARGV[0] if ARGV[0] != nil
+
+  Validator::validate_options(options)
+
+  if Validator::any_errors?
+    Validator::print_errors
+  else
+    puts PastebinWrapper::paste_file(options)
+  end
 end
