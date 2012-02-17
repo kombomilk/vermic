@@ -13,5 +13,18 @@ As soon as this is my first gem please let me know if you notice some ugly code 
 TODO:
 
 1. + Handle missing mandatory arguments 
-2. + Copy URL to the system clipboard
+2. + Copy URL to the system clipboard(tested for linux only)
 3. Add file extension recognizer
+
+Why?
+----
+
+This gem is quite useless because it cannot be used by many people since there's a restriction for pastes from one developer API a day. However, even from this simple project I've learned a lot of things and this is the first gem I've ever created, yupi. 
+I feel that there're tons of design and other trivial errors here so if you can admit any mistakes here please let me know.
+
+Why vermic?
+-----------
+
+Well, we all know about spaghetti code. Let me give you my association row:
+
+pastebin.com -> a lot of code -> huh, a lot of spaghetti code -> Italian cuisine -> vermicelli??? -> vermic
