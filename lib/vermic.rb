@@ -55,6 +55,9 @@ module Vermic
   else
     result = PastebinWrapper::paste_file(options)
     puts result
-    Clipboard::copy(result) if result =~ /^https?:\/\//
+    if result =~ /^https?:\/\//
+      Clipboard::copy(result)   
+      puts "This URL has been copied to your clipboard"
+    end
   end
 end

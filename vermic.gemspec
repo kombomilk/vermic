@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Vermic::VERSION
   s.authors     = ["Sergey Kim"]
   s.email       = ["skim1776@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "http://www.github.com/skim1776/vermic"
   s.summary     = %q{Pastes your code to the pastebin.com}
   s.description = %q{I often need to paste my code to some place with public access in order to ask questions.
  This utility makes this process easier.}
